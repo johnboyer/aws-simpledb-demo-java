@@ -71,6 +71,10 @@ public class AWSSimpleDBInserter {
 	 * SimpleDB client
 	 */
 	private static AmazonSimpleDB sSDB;
+	/**
+	 * Set to <code>false</code> to keep the domain and the data.
+	 */
+	private static final boolean TEST_MODE = false;
 
   
 	/**
@@ -110,10 +114,13 @@ public class AWSSimpleDBInserter {
 
 
 	/**
-	 * Deletes the domain
+	 * Deletes the domain, if {@link #TEST_MODE} is true.
 	 */
 	public static void deleteDomain() {
-		sSDB.deleteDomain(new DeleteDomainRequest(DOMAIN_NAME));
+		if(TEST_MODE) {
+			System.out.println("WARNING: Deleting the domain and all its data. Set TEST_MODE to false to keep the domain");
+			sSDB.deleteDomain(new DeleteDomainRequest(DOMAIN_NAME));
+		}
 	}
 
 	/**
